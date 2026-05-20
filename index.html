@@ -1,205 +1,458 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fetingames - The Mine</title>
-<style>
-  /* Фон из картинки игры */
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    color: #ffffff;
-    background-image: url('background.jpg');
-    background-size: cover;
-    background-position: center;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tk Studio & Language Documentation</title>
+    <style>
+        :root {
+            --bg-main: #1e1e1e;
+            --bg-card: #252526;
+            --bg-nav: #1a1a1a;
+            --accent: #007acc;
+            --accent-hover: #0062a3;
+            --text-main: #cccccc;
+            --text-white: #ffffff;
+            --code-keyword: #569cd6;
+            --code-sys: #4ec9b0;
+            --code-str: #ce9178;
+            --code-var: #9cdcfe;
+            --code-num: #b5cea8;
+        }
 
-  /* Полупрозрачное окно */
-  .overlay {
-    background-color: rgba(20, 20, 20, 0.8);
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 20px;
-    border-radius: 10px;
-  }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  /* Заголовок и надписи */
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
 
-  /* Верхняя строка: название + ссылка */
-  .title-line {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
+        header {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid #2d2d2d;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
 
-  h1 {
-    font-size: 48px;
-    margin: 0;
-    letter-spacing: 2px;
-  }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
 
-  /* "The Main" и ссылка "ANTIHYPE:clicker" */
-  h2 {
-    font-size: 24px;
-    margin: 0;
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-white);
+            text-decoration: none;
+        }
 
-  .antihype-link {
-    font-size: 16px;
-    padding: 5px 10px;
-    background-color: #ff4b2b;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  .antihype-link:hover {
-    background-color: #ff3a1f;
-  }
+        .logo span {
+            color: var(--accent);
+        }
 
-  /* Линия под заголовком */
-  hr {
-    width: 80px;
-    border: 2px solid #ffffff;
-    margin: 10px 0;
-    border-radius: 2px;
-  }
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
 
-  /* Основной контент */
-  .content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
+        .nav-links a:hover {
+            color: var(--text-white);
+        }
 
-  /* Блок рекомендаций */
-  .install {
-    flex: 1 1 60%;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-  }
+        /* Уменьшили верхний margin со 120px до 90px и нижний с 30px до 10px */
+        .hero {
+            max-width: 1200px;
+            margin: 90px auto 10px auto;
+            padding: 20px 20px;
+            text-align: center;
+        }
 
-  .install h3 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    border-bottom: 2px solid #fff;
-    display: inline-block;
-    padding-bottom: 5px;
-  }
+        .hero h1 {
+            font-size: 42px;
+            color: var(--text-white);
+            margin-bottom: 10px;
+        }
 
-  ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin-bottom: 30px;
-  }
+        .hero p {
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto 15px auto;
+        }
 
-  /* Скриншоты */
-  .screenshots {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+        .btn-download {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text-white);
+            text-decoration: none;
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
 
-  .screenshots img {
-    width: 150px;
-    height: auto;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+        .btn-download:hover {
+            background-color: var(--accent-hover);
+        }
 
-  .screenshots img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px #fff;
-  }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+        }
 
-  /* Блок с кнопкой скачивания */
-  .download {
-    flex: 1 1 35%;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    margin-top: 20px;
-  }
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
 
-  .download a {
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: #ff4b2b;
-    color: #fff;
-    font-size: 18px;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-  }
+        /* Уменьшили верхний и нижний padding внутри карточек с 30px до 20px */
+        .docs-section {
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+        }
 
-  .download a:hover {
-    background-color: #ff3a1f;
-  }
+        /* Сделали отступ над заголовком h2 меньше, чтобы он поднялся выше */
+        .docs-section h2 {
+            color: var(--text-white);
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333333;
+            padding-bottom: 8px;
+        }
 
-  /* Адаптив */
-  @media(max-width: 768px) {
-    .content {
-      flex-direction: column;
-    }
-    .install, .download {
-      flex: 1 1 100%;
-    }
-  }
-</style>
+        .docs-section h3 {
+            color: var(--text-white);
+            margin: 18px 0 8px 0;
+        }
+
+        .docs-section p {
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        code {
+            background-color: #1e1e1e;
+            color: var(--code-str);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+
+        pre {
+            background-color: #1e1e1e;
+            padding: 15px 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            border: 1px solid #2d2d2d;
+            margin: 12px 0;
+        }
+
+        .kwd { color: var(--code-keyword); }
+        .sys { color: var(--code-sys); }
+        .str { color: var(--code-str); }
+        .var { color: var(--code-var); }
+        .num { color: var(--code-num); }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .widget {
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .widget h3 {
+            color: var(--text-white);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .widget ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .widget ul li {
+            margin-bottom: 8px;
+        }
+
+        .widget ul li a {
+            color: var(--code-var);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .widget ul li a:hover {
+            color: var(--text-white);
+            text-decoration: underline;
+        }
+
+        .tg-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #229ED9;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .tg-link:hover {
+            background-color: #1c8adb;
+        }
+
+        footer {
+            background-color: var(--bg-nav);
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            border-top: 1px solid #2d2d2d;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="overlay">
-<header>
-  <div class="title-line">
-    <h1>Fetingames</h1>
-    
-  </div>
-  <div style="display:flex; align-items:center; justify-content:center; gap:15px; margin-top:10px;">
-    <h2>The Mine</h2>
-    
-    <a class="antihype-link" href="clicker.html" target="_blank">ANTIHYPE:clicker</a>
-  </div>
-  <hr />
-</header>
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Tk<span>Studio</span></a>
+            <nav class="nav-links">
+                <a href="#intro">Введение</a>
+                <a href="#console-cmds">HPP Консоль</a>
+                <a href="#gui-cmds">HPP GUI</a>
+                <a href="#whp-cmds">WHP Веб</a>
+                <a href="#support">Поддержка</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="content">
-  
-  <div class="install">
-    <h3>Предыстория</h3>
-    <ul>2042 год. когда в мире полном технологий, гаджетов, и главное - людей случилась трагедия - ядерная война, вы - возможно последний человек на этой планете, который спрятался в бункере, а вход наружу засыпало, хотя, наруже уже нет ничего - только тонны радиации, а снизу - подземные города " людей ", которые по незивестной причине стали монстрами, из арсенала в начале у вас разве что кирка и немного еды... и как выжить в таких условиях? вопрос хороший...</ul>
-    <div class="screenshots">
-      <img src="https://via.placeholder.com/150?text=Screenshot+1" alt="Скриншот 1" />
-      <img src="https://via.placeholder.com/150?text=Screenshot+2" alt="Скриншот 2" />
-      <img src="https://via.placeholder.com/150?text=Screenshot+3" alt="Скриншот 3" />
+    <section class="hero">
+        <h1>Документация HPP и WHP</h1>
+        <p>HPP (Hardware Performance Programming) — это интерпретируемый язык программирования для консольных и оконных приложений. WHP (Web Hardware Programming) — расширение для разработки статических веб-страниц.</p>
+        <a href="https://www.dropbox.com/scl/fi/iqdyrtj0h544vadbepwre/hpp_inst.exe?rlkey=vbexamwrkykoounloojzeppmd&st=zlouo80y&dl=1" class="btn-download">Скачать установщик (.EXE)</a>
+    </section>
+
+    <div class="container">
+        <main>
+            <section id="intro" class="docs-section">
+                <h2>Введение и использование файлов</h2>
+                <p>Оба языка предлагают мощные команды для работы с переменными, математическими операциями, условиями и многим другим.</p>
+                <ul>
+                    <li>Файлы для консольных приложений должны иметь расширение <code>.hpp</code>.</li>
+                    <li>Файлы для веб-разработки должны иметь расширение <code>.whp</code>.</li>
+                </ul>
+
+                <h3>Компиляция и запуск</h3>
+                <p>Чтобы сделать исполняемый файл из <code>.hpp</code>, напишите в консоли:</p>
+                <pre><span class="sys">hppinstaller</span> &lt;полный путь к папке с файлом (без слеша в конце)&gt; &lt;имя файла.vvm&gt;</pre>
+                <p>Скрипт создаст папку, важную для работы программы, и исполняемый батник, запускающий скрипт на ОС, где может быть не установлен HPP (важно, чтобы файл и батник были в одной директории).</p>
+
+                <p>Запустить скрипт можно через IDE или через консоль Windows:</p>
+                <pre><span class="sys">hpp</span> &lt;полный_путь_к_файлу.hpp&gt;</pre>
+                <p>Это действие создаст файл с таким же именем, но расширением <code>.vvm</code>, который сможет обработать интерпретатор.</p>
+                <pre><span class="sys">vvm</span> &lt;полный_путь_к_файлу.vvm&gt;</pre>
+                <p>Это действие запускает скрипт. Также можно открыть с помощью <code>C:\windows\system32\hpp.exe</code> для <code>.hpp</code> или с помощью <code>C:\windows\system32\vvm.exe</code> для <code>.vvm</code>.</p>
+            </section>
+
+            <section id="console-cmds" class="docs-section">
+                <h2>Команды для консольного приложения (HPP)</h2>
+                
+                <h3>Переменные и типы данных</h3>
+                <p>Объявление переменных и базовые манипуляции с ними:</p>
+                <pre><span class="kwd">str</span> name = <span class="str">"текст"</span>
+<span class="kwd">int</span> number = <span class="num">10</span>
+<span class="kwd">float</span> f_number = <span class="num">10.5</span>
+
+<span class="kwd">str</span> words = <span class="kwd">split</span> <span class="var">%переменная%</span>
+<span class="kwd">int</span> random_val = <span class="kwd">Random</span> <span class="num">1 100</span>
+<span class="kwd">float</span> random_f = <span class="kwd">Random</span> <span class="num">1.0 10.0</span></pre>
+
+                <h3>Ввод и вывод</h3>
+                <pre><span class="sys">System.ReadLine()</span>
+<span class="sys">System.ReadInt()</span>
+<span class="sys">System.out.print</span> <span class="str">Привет, мир!</span>
+<span class="sys">System.timeout</span> <span class="num">5</span></pre>
+
+                <h3>Работа с реестром Windows</h3>
+                <pre><span class="sys">System.reg.read</span> HKEY_CURRENT_USER Software\MyApp MySetting var_name
+<span class="sys">System.reg.write</span> HKEY_CURRENT_USER Software\MyApp MySetting REG_SZ <span class="str">"MyValue"</span>
+<span class="sys">System.reg.delete</span> HKEY_CURRENT_USER Software\MyApp MySetting</pre>
+
+                <h3>Базы данных SQLite</h3>
+                <pre><span class="sys">DB.open</span> <span class="str">my_database.db</span>
+<span class="sys">DB.execute</span> <span class="str">CREATE TABLE users (id INTEGER, name TEXT)</span>
+<span class="sys">DB.commit</span>
+<span class="sys">DB.query</span> <span class="str">SELECT * FROM users</span> res_array
+<span class="sys">DB.close</span></pre>
+
+                <h3>Управление файлами</h3>
+                <pre><span class="sys">System.create.file</span> <span class="str">"path"</span>
+<span class="sys">System.delete.file</span> <span class="str">"path"</span>
+<span class="sys">System.file.read</span> <span class="str">"path"</span> target_var
+<span class="sys">System.edit.file</span> <span class="str">"path"</span> : <span class="str">новый контент</span>
+<span class="sys">System.add_new_line_edit.file</span> <span class="str">"path"</span> <span class="str">добавляемая строка</span></pre>
+
+                <h3>Математика и Массивы</h3>
+                <pre><span class="sys">System.calc</span> <span class="var">%переменная%</span> + <span class="num">5</span>
+<span class="kwd">int</span> result = <span class="var">#res#</span>
+
+<span class="sys">Math.factorial</span> <span class="var">%num%</span> res_var
+<span class="sys">Math.sqrt</span> <span class="num">16</span> res_var
+
+<span class="kwd">array</span> my_arr = []
+<span class="kwd">array add</span> my_arr <span class="str">"значение"</span>
+<span class="kwd">array get</span> my_arr <span class="num">0</span> target_var
+<span class="kwd">array print</span> my_arr</pre>
+
+                <h3>Ассоциативные массивы (Map)</h3>
+                <pre><span class="kwd">map</span> my_map = {}
+<span class="kwd">map add</span> my_map key value
+<span class="kwd">map key</span> my_map key target_var
+<span class="kwd">map.haskey</span> my_map key : <span class="sys">System.out.print</span> <span class="str">Ключ найден!</span></pre>
+
+                <h3>Конвертация типов</h3>
+                <p>Если вы хотите конвертировать float в int или наоборот, используйте вычитание нуля:</p>
+                <pre><span class="kwd">int</span> integer = <span class="var">%float%</span> - <span class="num">0</span>
+<span class="kwd">float</span> float_val = <span class="var">%integer%</span> - <span class="num">0</span></pre>
+            </section>
+
+            <section id="gui-cmds" class="docs-section">
+                <h2>Оконные приложения (GUI)</h2>
+                <p>Интерфейс строится внутри логических блоков функций. Пример реализации окна Калькулятора:</p>
+                <pre><span class="kwd">public static void</span> Main(<span class="kwd">String</span>[] args) {
+    <span class="sys">System create window</span> Calculator <span class="num">200 200</span>
+    <span class="sys">System add_text window</span> Calculator <span class="num">10 10</span> Enter first number
+    <span class="sys">System get window</span> Calculator fn <span class="num">60 20 20 30</span>
+    
+    <span class="sys">System add_text window</span> Calculator <span class="num">10 45</span> Enter second number
+    <span class="sys">System get window</span> Calculator sn <span class="num">60 20 20 65</span>
+    
+    <span class="sys">System add_text window</span> Calculator <span class="num">10 80</span> Enter sing + - * / :
+    <span class="sys">System get window</span> Calculator si <span class="num">50 20 20 100</span>
+    
+    <span class="kwd">str</span> p = <span class="str">"+"</span>
+    <span class="kwd">str</span> m = <span class="str">"-"</span>
+    <span class="kwd">str</span> y = <span class="str">"*"</span>
+    <span class="kwd">str</span> r = <span class="str">"/"</span>
+    
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%p%</span> : <span class="kwd">int</span> result = <span class="var">%fn%</span> + <span class="var">%sn%</span>
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%p%</span> : <span class="sys">System out print</span> <span class="var">%result%</span>
+    
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%m%</span> : <span class="kwd">int</span> result = <span class="var">%fn%</span> - <span class="var">%sn%</span>
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%m%</span> : <span class="sys">System out print</span> <span class="var">%result%</span>
+    
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%y%</span> : <span class="kwd">int</span> result = <span class="var">%fn%</span> * <span class="var">%sn%</span>
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%y%</span> : <span class="sys">System out print</span> <span class="var">%result%</span>
+    
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%r%</span> : <span class="kwd">int</span> result = <span class="var">%fn%</span> / <span class="var">%sn%</span>
+    <span class="kwd">if</span> <span class="var">%si%</span> == <span class="var">%r%</span> : <span class="sys">System out print</span> <span class="var">%result%</span>
+    
+    <span class="sys">System add_text window</span> Calculator <span class="num">10 120</span> Result
+    <span class="sys">System add_text window</span> Calculator <span class="num">60 120</span> <span class="var">%result%</span>
+}</pre>
+                <p>Дополнительные команды управления элементами GUI:</p>
+                <pre><span class="sys">System.add_button.window</span> Окно Текст X Y W H Имя_Функции
+<span class="sys">System.clear.window</span> Окно</pre>
+            </section>
+
+            <section id="whp-cmds" class="docs-section">
+                <h2>Команды для веб-разработки (WHP)</h2>
+                <p>Позволяет структурировать и собирать разметку, стили и исполняемые скрипты внутри единого текстового пространства.</p>
+                
+                <h3>Основные дескрипторы</h3>
+                <ul>
+                    <li><code>&lt;WHP&gt;</code> — указывает начало WHP файла.</li>
+                    <li><code>&lt;WHP_END&gt;</code> — указывает конец WHP файла.</li>
+                    <li><code>HTML &lt;контент&gt;</code> — добавляет HTML-контент в тело веб-страницы.</li>
+                    <li><code>CSS &lt;стили&gt;</code> — добавляет стили на веб-страницу.</li>
+                    <li><code>JS &lt;скрипт&gt;</code> — добавляет JavaScript код.</li>
+                    <li><code>PRINT &lt;сообщение&gt;</code> — выводит сообщение на странице через JS-механизм.</li>
+                </ul>
+
+                <h3>Пример файла .whp</h3>
+                <pre><span class="kwd">&lt;WHP&gt;</span>
+<span class="sys">HTML</span> &lt;h1&gt;Добро пожаловать на мой сайт!&lt;/h1&gt;
+<span class="sys">CSS</span> body { font-family: Arial, sans-serif; background-color: #f0f0f0; }
+<span class="sys">JS</span> console.log("Страница загружена.");
+<span class="sys">PRINT</span> Привет, мир!
+<span class="kwd">&lt;WHP_END&gt;</span></pre>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h3>Содержание</h3>
+                <ul>
+                    <li><a href="#intro">Введение и Компиляция</a></li>
+                    <li><a href="#console-cmds">HPP Консоль</a></li>
+                    <li><a href="#gui-cmds">Оконный интерфейс (GUI)</a></li>
+                    <li><a href="#whp-cmds">Веб-разработка (WHP)</a></li>
+                    <li><a href="https://www.dropbox.com/scl/fo/gkuxogcmfo0viuv2bfsl7/AEYbddjCMiQZS98wk_6EEvk?rlkey=pu9829xykg5bhs6mx72vpfhil&st=kncxyk87&dl=1" target="_blank">Скачать материалы (Dropbox)</a></li>
+                </ul>
+            </div>
+
+            <div class="widget" id="support">
+                <h3>Техническая поддержка</h3>
+                <p style="font-size: 14px; margin-bottom: 15px;">Возникли вопросы, нашли баг или нужна помощь с интеграцией?</p>
+                <a href="https://t.me/toika12" target="_blank" class="tg-link">Связаться @toika12</a>
+            </div>
+
+            <div class="widget">
+                <h3>Спецификация релиза</h3>
+                <p style="font-size: 14px;">
+                    <strong>Версия:</strong> 2.1.0 Stable<br>
+                    <strong>Архитектура:</strong> Windows x64<br>
+                    <strong>Интерпретатор:</strong> VVM Engine
+                </p>
+            </div>
+        </aside>
     </div>
-  </div>
-  <!-- Блок с ссылкой на скачивание -->
-  <div class="download">
-    <a href="https://example.com/download" target="_blank">Скачать игру</a>
-  </div>
-</div>
-</div>
+
+    <footer>
+        <p>&copy; 2026 Tk Studio. Все права защищены.</p>
+    </footer>
 
 </body>
 </html>
